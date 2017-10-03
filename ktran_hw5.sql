@@ -76,19 +76,19 @@ INSERT INTO Border(country1, country2, border_length)VALUES
 ("US", "MEX", 390123),
 ("MEX", "DPRK", 289743);
 
--- 3
+-- finds the GDP, inflation, and total population of each country.
 SELECT c.code, c.inflation, c.gdp, SUM(c1.population)
 FROM Country c JOIN City c1 WHERE c1.country = c.code
 GROUP BY c.code;
 
--- 4
+-- find the name, area, and total population of provinces with a population over 1,000,000 people
 SELECT p.province_name, p.area, SUM(c.population)
 FROM Province p, City c
 WHERE p.province_name = c.province 
 GROUP BY p.province_name
 HAVING SUM(c.population) > 1000000;
 
--- 5 
+-- orders countries by their size in terms of the number of cities they have
 SELECT c1.code, COUNT(c2.country)
 FROM Country c1 JOIN City c2 ON c1.code = c2.country
 GROUP BY c1.code
@@ -96,19 +96,19 @@ HAVING COUNT(c2.country) > 0
 ORDER BY COUNT(c2.country) DESC;
 
 
--- 6
+-- orders countries by their total area
 SELECT c.code, SUM(p.area)
 FROM Province p JOIN Country c ON p.country = c.code
 GROUP BY c.code
 ORDER BY SUM(p.area) DESC;
 
--- 7
-SELECT c1.code, COUNT(p.province_name)
+-- finds countries containing one or more provinces with at least 5 cities
+SELECT DISTINCT c1.code, COUNT(p.province_name)
 FROM Country c1 JOIN Province p ON p.country = c1.code JOIN City c2 ON p.province_name = c2.province
 GROUP BY c1.code
 HAVING COUNT(p.province_name) >= 1 AND COUNT(c2.country) > 4;
 
--- 8 
+-- relation is the associative version of the borders relation
 CREATE VIEW assoc_borders AS
 SELECT *
 FROM Border
@@ -116,7 +116,7 @@ UNION ALL
 SELECT country2 AS country1, country1 AS country2, border_length
 FROM Border;
 
--- 9
+-- for each country, the average GDP and inflation of each of its bordering countries
 SELECT DISTINCT c.code, AVG(c2.gdp), AVG(c2.inflation)
 FROM Country c JOIN assoc_borders ab ON c.code = ab.country1 JOIN Country c2 ON c2.code = ab.country2
 GROUP BY c.code;
