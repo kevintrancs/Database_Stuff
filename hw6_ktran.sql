@@ -92,10 +92,9 @@ FROM(
 --  Find the total sales (of payments) for each store ordered from highest to lowest total sales.
 SELECT
   i.store_id , SUM(p.amount)
-FROM
-  inventory i, payment p , rental r 
-WHERE
-  p.rental_id = r.rental_id AND i.inventory_id = r.inventory_id
+FROM inventory i, payment p , rental r 
+WHERE p.rental_id = r.rental_id 
+AND i.inventory_id = r.inventory_id
 GROUP BY i.store_id
 ORDER BY SUM(p.amount) desc;
 
