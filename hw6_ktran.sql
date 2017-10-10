@@ -63,18 +63,25 @@ FROM (
 ) as t;
 
 --  Find the store (or stores) that have the most rentals.
+SELECT t1.store_id
+FROM (
+	SELECT MAX(most), t1.store_id
+	FROM (
+		SELECT s.store_id, COUNT(*) as most
+		FROM rental r, inventory i, store s
+		WHERE r.inventory_id = i.inventory_id
+		AND s.store_id = i.store_id
+		GROUP BY s.store_id
+		ORDER BY most desc
+	) as t1
+) as t2;
 
-SELECT i.store_id
-FROM inventory i, (
-	SELECT COUNT(*) as most
-	FROM rental r 
-	JOIN payment p ON r.rental_id = p.rental_id
-) as s_id
-GROUP BY most
-ORDER BY most desc;
+
+SELECT COUNT( inventory_id ) as numOfDVDsOnRent
+FROM rental
+WHERE return_date IS NULL;
 
 --  title of the most rented ‘G rated film(s).
-
 SELECT t2.title
 FROM(
 	SELECT MAX(most), t1.title
