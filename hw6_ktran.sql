@@ -38,7 +38,8 @@ c.customer_id = r.customer_id AND
 i.inventory_id = r.inventory_id AND
 i.film_id = f.film_id
 GROUP BY c.customer_id
-HAVING COUNT(*) >= 10;
+HAVING COUNT(*) >= 10
+ORDER BY COUNT(*) desc;
 
 -- total sales (of payments) for each film category.
 
@@ -63,7 +64,7 @@ FROM (
 ) as t;
 
 --  Find the store (or stores) that have the most rentals.
-SELECT t1.store_id
+SELECT t2.store_id
 FROM (
 	SELECT MAX(most), t1.store_id
 	FROM (
@@ -75,11 +76,6 @@ FROM (
 		ORDER BY most desc
 	) as t1
 ) as t2;
-
-
-SELECT COUNT( inventory_id ) as numOfDVDsOnRent
-FROM rental
-WHERE return_date IS NULL;
 
 --  title of the most rented ‘G rated film(s).
 SELECT t2.title
