@@ -8,6 +8,7 @@
 SELECT f.film_id,f .title
 FROM film f
 LEFT JOIN inventory i USING(film_id)
+WHERE i.film_id IS null
 GROUP BY f.title, f.film_id;
 
 -- Query 2 all of the ids and titles of films that are not in any store’s inventory.
