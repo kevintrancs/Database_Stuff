@@ -16,6 +16,7 @@ GROUP BY f.title, f.film_id;
 SELECT f.title, i.film_id
 FROM film f
 JOIN inventory i USING (film_id)
+WHERE f.film_id IS null
 UNION
 SELECT f.title, NULL 
 FROM film f
