@@ -13,12 +13,12 @@ GROUP BY f.title, f.film_id;
 
 -- Query 2 all of the ids and titles of films that are not in any store’s inventory.
 
-SELECT f.title, i.film_id
+SELECT f.title, f.film_id
 FROM film f
 JOIN inventory i USING (film_id)
 WHERE f.film_id IS null
 UNION
-SELECT f.title, NULL 
+SELECT f.title, f.film_id 
 FROM film f
 WHERE f.film_id NOT IN (
     SELECT i.film_id 
