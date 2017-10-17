@@ -34,7 +34,7 @@ LEFT JOIN (
     RIGHT JOIN actor a ON fa.actor_id = a.actor_id
     GROUP BY fa.film_id
 ) as t USING(film_id)
-GROUP BY f.film_id, f.title;
+GROUP BY f.film_id, f.title DESC;
 
 
 
