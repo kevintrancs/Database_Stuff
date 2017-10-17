@@ -26,17 +26,10 @@ WHERE f.film_id NOT IN (
     );
 
 -- Query 3 the number of actors that acted in each film
-SELECT f.film_id, f.title, total_actors
+SELECT f.film_id, f.title, COUNT(DISTINCT fa.actor_id) as total_actors
 FROM film f
-LEFT JOIN (
-    SELECT fa.film_id, COUNT(*) as total_actors
-    FROM film_actor fa 
-    RIGHT JOIN actor a ON fa.actor_id = a.actor_id
-    GROUP BY fa.film_id
-) as t USING(film_id)
-GROUP BY f.film_id, f.title DESC;
-
-
-
+LEFT JOIN film_actor fa USING(film_id)
+GROUP BY film_id
+ORDER BY total_actors ASC;
 
 
