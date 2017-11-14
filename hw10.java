@@ -21,9 +21,9 @@ public class Sql {
    	    int swValue;
 
 		// create connection
-		String url = "jdbc:mysql://147.222.163.1:3306/ktran_DB";
-		String user = "ktran";
-		String pass = "ktran11860677";
+		String url = "jdbc:mysql://147.222.163.1:3306/";
+		String user = "";
+		String pass = "";
 		Connection cn = DriverManager.getConnection(url, user, pass);
 	
 
